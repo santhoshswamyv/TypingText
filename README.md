@@ -21,6 +21,7 @@ git clone https://github.com/santhoshswamyv/TypingText
 cd TypingText
 ```
 *Open `index.html` in your browser or host the project locally*
+
 ---
 ## 🔗 Links & Support
 
