@@ -9,7 +9,8 @@
 ## Developed Using
 **IDE :** Visual Studio Code  
 **Languages :** HTML, CSS, JavaScript  
-**API :** [Metaphorpsum](https://metaphorpsum.com/)  
+**API :** [Metaphorpsum](https://metaphorpsum.com/)
+
 ---
 ## How to Run the Project
 *Clone the project*
