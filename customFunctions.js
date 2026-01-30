@@ -117,7 +117,7 @@ async function generateRandomParagraph(difficulty) {
             return null;
     }
 
-    let url = `http://metaphorpsum.com/paragraphs/${noOfParagraph}/${noOfSentence}`;
+    let url = `https://api.allorigins.win/raw?url=http://metaphorpsum.com/paragraphs/${noOfParagraph}/${noOfSentence}`;
 
     const response = await fetch(url)
 
@@ -199,3 +199,4 @@ function renderParagraph(index) {
         `<span class="typed">${typed}</span>` +
         `<span class="remaining">${remaining}</span>`;
 }
+
