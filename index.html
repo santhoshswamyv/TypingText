@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Typing Text</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Popins Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <!-- Font Awesome CDN -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <!-- Styles CSS-->
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+    <div class="app">
+        <h1 class="title">Typing Text</h1>
+
+        <div class="stats">
+            <div class="stat-item">
+                <i class="fa-solid fa-stopwatch"></i>
+                <span id="timer">0</span>Seconds
+            </div>
+
+            <div class="stat-item">
+                <i class="fa-regular fa-circle-xmark"></i>
+                <span id="mistakes">0</span>Mistakes
+            </div>
+        </div>
+
+        <p id="generatedParagraph"></p>
+
+        <div id="responseDiv">
+            <textarea type="text" id="currentResponse" onkeydown="validateResponse(event)" 
+            onkeyup="timerFunc('STOP')"
+            oninput="autoGrow(this)"
+            placeholder="Start typing here..." disabled ></textarea>
+        </div>
+
+        <div class="difficulty">
+            <input type="radio" name="difficulty" id="easyDifficulty">
+            <label for="easyDifficulty">Easy</label>
+
+            <input type="radio" name="difficulty" id="mediumDifficulty">
+            <label for="mediumDifficulty">Medium</label>
+
+            <input type="radio" name="difficulty" id="hardDifficulty">
+            <label for="hardDifficulty">Hard</label>
+        </div>
+
+        <button id="readyBtn" onclick="startTypingTest()">Ready</button>
+        <button id="resetBtn" onclick="resetTypingTest()" style="display:none;">Reset</button>
+
+    </div>
+    <div id="customAlert" class="alert-overlay">
+        <div class="alert-box">
+            <h3 id="alertTitle">Alert</h3>
+            <p id="alertMessage"></p>
+            <button onclick="closeAlert()">OK</button>
+        </div>
+    </div>
+
+    <!-- Custom JS -->
+    <script src="customFunctions.js"></script>
+
+</body>
+
+</html>
