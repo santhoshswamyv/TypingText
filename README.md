@@ -1,6 +1,6 @@
 # *Typing Text*
 ## Features
-- Generates a paragraph using the free [Metaphorpsum API](http://metaphorpsum.com/)  
+- Generates a paragraph using the free [Bacon Ipsum API](https://baconipsum.com/)
 - Calculates the time taken to type the paragraph (in seconds)  
 - Counts only **actual typing mistakes**, ignoring repeated errors  
 - Simple and user-friendly interface  
@@ -9,7 +9,7 @@
 ## Developed Using
 **IDE :** Visual Studio Code  
 **Languages :** HTML, CSS, JavaScript  
-**API :** [Metaphorpsum](http://metaphorpsum.com/)
+**API :** [Bacon Ipsum API](https://baconipsum.com/)
 
 ---
 ## How to Run the Project
