@@ -95,22 +95,22 @@ function validateResponse(event) {
 // Helper Functions
 
 async function generateRandomParagraph(difficulty) {
-    let noOfParagraph;
+    let noOfParagraph = 1;
     let noOfSentence;
 
 
     switch (difficulty) {
         case "EASY":
-            noOfParagraph = 1;
-            noOfSentence = 5;
-            break;
-        case "MEDIUM":
-            noOfParagraph = 2;
+            //noOfParagraph = 1;
             noOfSentence = 7;
             break;
-        case "HARD":
-            noOfParagraph = 3;
+        case "MEDIUM":
+            //noOfParagraph = 2;
             noOfSentence = 10;
+            break;
+        case "HARD":
+            //noOfParagraph = 3;
+            noOfSentence = 20;
             break;
         default:
             showAlert("Information" , "Invalid Difficulty");
@@ -200,5 +200,6 @@ function renderParagraph(index) {
         `<span class="typed">${typed}</span>` +
         `<span class="remaining">${remaining}</span>`;
 }
+
 
 
