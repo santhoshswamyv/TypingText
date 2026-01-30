@@ -17,15 +17,28 @@
     <link rel="stylesheet" href="styles.css">
 
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            overflow: hidden;
-            font-family: 'Poppins', sans-serif;
+        .alert-overlay {
+            position: fixed;
+            inset: 0;
+            /* top:0 right:0 bottom:0 left:0 */
+            display: flex;
+            align-items: center;
+            /* vertical center */
+            justify-content: center;
+            /* horizontal center */
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 9999;
         }
 
-        .alert-overlay {
-            display: flex !important;
+        .alert-box {
+            max-width: 90%;
+            /* important for mobile */
+            width: 320px;
+            background: #111;
+            color: #fff;
+            padding: 20px 24px;
+            border-radius: 12px;
+            text-align: center;
         }
     </style>
 
