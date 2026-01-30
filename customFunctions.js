@@ -1,3 +1,21 @@
+//Device Check
+
+if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+    document.body.innerHTML = 
+    `
+    <div id="customAlert" class="alert-overlay">
+        <div class="alert-box">
+            <h3 id="alertTitle">Alert</h3>
+            <p id="alertMessage"></p>
+            <button id="alertButton" onclick="closeAlert()">OK</button>
+        </div>
+    </div>
+    `;
+
+    document.getElementById("alertButton").remove();
+    showAlert("Information", "Use Desktop for Better Experience..!");
+}
+
 // Variable Declarations
 
 let paragraph;
@@ -200,6 +218,7 @@ function renderParagraph(index) {
         `<span class="typed">${typed}</span>` +
         `<span class="remaining">${remaining}</span>`;
 }
+
 
 
 
