@@ -40,7 +40,8 @@
         <p id="generatedParagraph"></p>
 
         <div id="responseDiv">
-            <textarea type="text" id="currentResponse" onkeydown="validateResponse(event)" 
+            <textarea type="text" id="currentResponse" 
+            onkeydown="validateResponse(event)" 
             onkeyup="timerFunc('STOP')"
             oninput="autoGrow(this)"
             placeholder="Start typing here..." disabled ></textarea>
@@ -65,7 +66,7 @@
         <div class="alert-box">
             <h3 id="alertTitle">Alert</h3>
             <p id="alertMessage"></p>
-            <button onclick="closeAlert()">OK</button>
+            <button id="alertButton" onclick="closeAlert()">OK</button>
         </div>
     </div>
 

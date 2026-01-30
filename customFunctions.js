@@ -1,19 +1,7 @@
 //Device Check
 
 if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-    document.body.innerHTML = 
-    `
-    <div id="customAlert" class="alert-overlay">
-        <div class="alert-box">
-            <h3 id="alertTitle">Alert</h3>
-            <p id="alertMessage"></p>
-            <button id="alertButton" onclick="closeAlert()">OK</button>
-        </div>
-    </div>
-    `;
-
-    document.getElementById("alertButton").remove();
-    showAlert("Information", "Use Desktop for Better Experience..!");
+    window.location.href = 'mobile-error.html';
 }
 
 // Variable Declarations
@@ -34,28 +22,50 @@ let currentResponse = document.getElementById("currentResponse");
 let readyBtn = document.getElementById("readyBtn");
 let resetBtn = document.getElementById("resetBtn");
 
+// Disabling Unnecessary Events
+
+currentResponse.addEventListener("dragover", e => e.preventDefault());
+currentResponse.addEventListener("drop", e => e.preventDefault());
+currentResponse.addEventListener("paste", e => e.preventDefault());   
+
 async function startTypingTest() {
     readyBtn.disabled = true;
+
     let difficulty = document.getElementsByName("difficulty");
     let isChecked = false;
     for (let idx = 0; idx < difficulty.length; idx++) {
-        if(difficulty[idx].checked){
+        if (difficulty[idx].checked) {
             isChecked = true;
-            checkedDifficulty = difficulty[idx].id == "easyDifficulty" ? "EASY" : 
-                                difficulty[idx].id == "mediumDifficulty" ? "MEDIUM" : "HARD";
+            checkedDifficulty = difficulty[idx].id == "easyDifficulty" ? "EASY" :
+                difficulty[idx].id == "mediumDifficulty" ? "MEDIUM" : "HARD";
             break;
-        }   
+        }
     }
 
     if (!isChecked) {
-        showAlert("Information","Choose Difficulty to Begin..!");
+        showAlert("Information", "Choose Difficulty to Begin..!");
         return;
     }
 
-    paragraph = await generateRandomParagraph(checkedDifficulty);
-    
+    readyBtn.classList.add("loading");
+    readyBtn.innerText = "Loading...";
+
+    try {
+        paragraph = await generateRandomParagraph(checkedDifficulty);
+
+    } catch (error) {
+        showAlert("Error","Network issue. Please try again.");
+    } finally {
+        readyBtn.disabled = false;
+        readyBtn.classList.remove("loading");
+        readyBtn.innerText = "Ready";
+    }
+
     if (paragraph == null) {
-        showAlert("Information", "Error While Fetching Paragraph..!");
+        showAlert("Error", "Error While Fetching Paragraph..!");
+        readyBtn.disabled = false;
+        readyBtn.classList.remove("loading");
+        readyBtn.innerText = "Ready";
         return;
     }
 
@@ -64,116 +74,116 @@ async function startTypingTest() {
     readyBtn.style.display = "none";
     resetBtn.style.display = "block";
 
-    generatedParagraph.innerHTML = paragraph;
-    generatedParagraph.style.display = "block" ;
-    responseDiv.style.display = "block" ;
+    generatedParagraph.innerHTML = paragraph.replace(/\n/g, " ");
+    generatedParagraph.style.display = "block";
+    responseDiv.style.display = "block";
     currentResponse.disabled = false;
     currentResponse.focus();
 }
 
-function resetTypingTest(){
+function resetTypingTest() {
     window.location.reload();
 }
 
 function validateResponse(event) {
-    
-    if(timerId == null){
+
+    if (timerId == null) {
         timerFunc("START");
     }
 
     let currentIndex = currentResponse.value.length;
     let key = event.key;
-    
-    if(event.keyCode == 8){
+
+    if (event.keyCode == 8) {
         return
     }
 
-    if(paragraph.length == currentIndex){
+    if (paragraph.length == currentIndex) {
         event.preventDefault();
         return
     }
-    
-    if(key !== paragraph[currentIndex]){
+
+    if (key !== paragraph[currentIndex]) {
         let keyCode = event.keyCode;
-        if(keyCode >= 65 && keyCode <= 90 || keyCode == 32){
+        if (keyCode >= 65 && keyCode <= 90 || keyCode == 32) {
             if (!previousMistake) {
                 mistakes++;
                 previousMistake = true;
             }
         }
         event.preventDefault();
-    }else{
+    } else {
         previousMistake = false;
     }
 
     autoScrollParagraph(currentIndex);
-    updateField("mistakes",mistakes);
+    updateField("mistakes", mistakes);
 }
 
 // Helper Functions
 
 async function generateRandomParagraph(difficulty) {
-    let noOfParagraph = 1;
+    let noOfParagraph;
     let noOfSentence;
 
 
     switch (difficulty) {
         case "EASY":
-            //noOfParagraph = 1;
-            noOfSentence = 7;
+            noOfParagraph = 1;
+            noOfSentence = 5;
             break;
         case "MEDIUM":
-            //noOfParagraph = 2;
-            noOfSentence = 10;
+            noOfParagraph = 2;
+            noOfSentence = 7;
             break;
         case "HARD":
-            //noOfParagraph = 3;
-            noOfSentence = 20;
+            noOfParagraph = 3;
+            noOfSentence = 10;
             break;
         default:
-            showAlert("Information" , "Invalid Difficulty");
+            showAlert("Information", "Invalid Difficulty");
             return null;
     }
 
     //let url = `http://metaphorpsum.com/paragraphs/${noOfParagraph}/${noOfSentence}`;
     let url = `https://baconipsum.com/api/?type=all-meat&paras=${noOfParagraph}/&sentences=${noOfSentence}&format=text`;
-    
+
     const response = await fetch(url)
 
     if (!response.ok) {
         return null;
     }
 
-    return (await response.text()).replace(/\n/g," ");
+    return response.text();
 }
 
-function updateField(fieldId,fieldValue){
+function updateField(fieldId, fieldValue) {
     document.getElementById(fieldId).innerHTML = fieldValue;
 }
 
-function timerFunc(type){
-    if(type == "START"){
+function timerFunc(type) {
+    if (type == "START") {
         if (timerId == null) {
-            timerId = setInterval(updateTimer,1000)
+            timerId = setInterval(updateTimer, 1000)
         }
     }
 
-    if(type == "STOP"){
+    if (type == "STOP") {
         let len = document.getElementById("currentResponse").value.length;
-        if(len === paragraph.length){
+        if (len === paragraph.length) {
             clearInterval(timerId);
             currentResponse.disabled = true;
-            let resMsg = ("You Have Completed the " + checkedDifficulty + " Mode in " + timer ) + 
-                            (timer <= 1 ? " Second " : " Seconds ")  + ("With " + mistakes ) +
-                            (mistakes <= 1 ? " Mistake" : " Mistakes"); 
-            showAlert("Result",resMsg);
+            let resMsg = ("You Have Completed the " + checkedDifficulty + " Mode in " + timer) +
+                (timer <= 1 ? " Second " : " Seconds ") + ("With " + mistakes) +
+                (mistakes <= 1 ? " Mistake" : " Mistakes");
+            showAlert("Result", resMsg);
         }
     }
 }
 
-function updateTimer(){
+function updateTimer() {
     timer = timer + 1;
-    updateField("timer",timer);
+    updateField("timer", timer);
 }
 
 function showAlert(title, message) {
@@ -214,11 +224,7 @@ function renderParagraph(index) {
     const typed = paragraph.slice(0, index);
     const remaining = paragraph.slice(index);
 
-    generatedParagraph.innerHTML = 
+    generatedParagraph.innerHTML =
         `<span class="typed">${typed}</span>` +
         `<span class="remaining">${remaining}</span>`;
 }
-
-
-
-

@@ -3,6 +3,7 @@
     padding: 0;
     box-sizing: border-box;
     font-family: 'Poppins', sans-serif;
+    user-select: none;
 }
 
 body {
@@ -273,11 +274,20 @@ button:active {
     transform: translateY(0);
 }
 
+button.loading {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
 /* Alert */
 .alert-overlay {
     position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.6);
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.6);
     display: none;
     align-items: center;
     justify-content: center;
